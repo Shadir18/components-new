@@ -34,7 +34,7 @@ class JobController extends Controller
             'company' => ['required'],
             'salary' => ['required']
         ]);
-
+        $attributes['employer_id'] = auth()->user()->employer->id;
         Job::create($request->all());
         return redirect()->route('jobs.index')->with('success', 'job cerated successfully');
     }

@@ -34,13 +34,13 @@
                         <i class="fas fa-arrow-left mr-1"></i> Back to Jobs
                     </a>
 
-                    {{-- @can('edit', $job) --}}
+                    @can('edit', $job)
                     <div>
                         <x-button href="/jobs/{{$job->id}}/edit" class="btn btn-warning font-weight-bold">
                             Edit Job
                         </x-button>
                     </div>
-                    {{-- @endcan --}}
+                    @endcan
                 </div>
             </div>
         </div>

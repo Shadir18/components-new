@@ -42,7 +42,7 @@
                         <x-form-input id="salary" 
                                       type="text" 
                                       name="salary" 
-                                      class="form-control @error('salary') is-invalid @enderror" 
+                                      class="form-control" 
                                       value="{{ $job->salary }}">
                         </x-form-input>
                         @error('salary') 
