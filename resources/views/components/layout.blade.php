@@ -24,7 +24,7 @@
 
   <header class="bg-light py-4 border-bottom">
     <div class="container">
-        <div class="d-flex justify-content-between align-items-center">{{ $heading }}</div>
+        <div class="d-flex justify-content-between align-items-center fw-bold"> {{ $heading }} </div>
     </div>
   </header>
   <main>
