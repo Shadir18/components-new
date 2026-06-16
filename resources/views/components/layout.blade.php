@@ -12,6 +12,7 @@
 <div class="min-h-full">
   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="container">
+      <a class="navbar-brand font-weight-bold text-uppercase" href="/jobs">Dashboard</a>
         <div class="collapse navbar-collapse" id="navbarNav">
             <div class="navbar-nav ml-auto gap-2">
               <x-nav-link href="/jobs" :active="request()->is('jobs')">Home</x-nav-link>
@@ -22,9 +23,16 @@
     </div>
   </nav>
 
-  <header class="bg-light py-4 border-bottom">
+  <header class="bg-white py-4 shadow-sm mb-4 border-bottom">
     <div class="container">
-        <div class="d-flex justify-content-between align-items-center fw-bold"> {{ $heading }} </div>
+      <div class="d-flex justify-content-between align-items-center gap-4"> 
+        <h1 class="h3 font-weight-bold mb-0 text-secondary text-tracking" style="letter-spacing: -0.5px;"> 
+          {{ $heading }} 
+        </h1> 
+        <div>
+          <x-button href="/jobs/create"> create Job </x-button>
+        </div>
+      </div>
     </div>
   </header>
   <main>

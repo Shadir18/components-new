@@ -1,7 +1,6 @@
 <x-layout>
     <x-slot:heading>
         <span>Job Details</span>
-        <x-button href="{{ route('jobs.create') }}">Post Job</x-button>
     </x-slot:heading>
 
     <div class="row justify-content-center">

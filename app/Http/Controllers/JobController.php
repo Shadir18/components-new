@@ -44,10 +44,7 @@ class JobController extends Controller
      */
     public function show(Job $job)
     {
-        return view('index', [
-            'job' => $job,
-            'jobs' => Job::all(),
-        ]);
+        return view('jobs.show', ['job' => $job]);
     }
 
     /**
@@ -55,7 +52,7 @@ class JobController extends Controller
      */
     public function edit(Job $job)
     {
-        return view('jobs.edit', compact('job'));
+        return view('jobs.edit', ['job' => $job]);
     }
 
     /**
@@ -63,14 +60,14 @@ class JobController extends Controller
      */
     public function update(Request $request, Job $job)
     {
-        request()->validate([
+        $attributes = $request->validate([
             'title' => ['required', 'min:5'],
             'company' => ['required'],
             'salary' => ['required']
         ]);
 
-        Job::update($request->all());
-        return redirect()->route('jobs.index')->with('success', 'job updated successfully');
+        $job->update($attributes);
+        return redirect('/jobs/'. $job->id);
     }
 
     /**
@@ -80,6 +77,6 @@ class JobController extends Controller
     {
         $job->delete();
 
-        return redirect()->route('jobs.index')->with('success', 'Job deleted successfully');
+        return redirect('/jobs');
     }
 }
