@@ -1,6 +1,6 @@
 @props(['name'])
 
-@error('$name')
+@error($name)
 <p>
     {{ $message }}
 </p>
