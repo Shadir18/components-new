@@ -14,9 +14,9 @@
     <div class="container">
         <div class="collapse navbar-collapse" id="navbarNav">
             <div class="navbar-nav ms-auto gap-2">
-                <a class="nav-link active" aria-current="page" href="#">Home</a>
-                <a class="nav-link" href="#">About</a>
-                <a class="nav-link" href="#">Contact</a>
+              <x-nav-link href="/jobs" :active="request()->is('jobs')">Home</x-nav-link>
+              <x-nav-link href="/about" :active="request()->is('about')">About</x-nav-link>
+              <x-nav-link href="/contact" :active="request()->is('contact')">Contact</x-nav-link>
             </div>
         </div>
     </div>
