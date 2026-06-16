@@ -13,7 +13,7 @@
             </div>
             
             <div class="card-body p-4">
-                <form action="/jobs" method="post">
+                <form action="/jobs" method="post" id="jobForm">
                     @csrf
                     
                     <x-form-field class="form-group mb-4">

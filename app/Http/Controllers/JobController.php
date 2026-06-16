@@ -40,8 +40,11 @@ class JobController extends Controller
             abort(403, 'You must be an employer to post jobs');
         }
         $attributes['employer_id'] = $employer->id;
-        Job::create($attributes);
-        return redirect('/jobs');
+        $job = Job::create($attributes);
+        return response()->json([
+            'message' => 'Job created successfully',
+            'job' => $job
+        ]);
     }
 
     /**
