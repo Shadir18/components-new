@@ -13,7 +13,7 @@
   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="container">
         <div class="collapse navbar-collapse" id="navbarNav">
-            <div class="navbar-nav ms-auto gap-2">
+            <div class="navbar-nav ml-auto gap-2">
               <x-nav-link href="/jobs" :active="request()->is('jobs')">Home</x-nav-link>
               <x-nav-link href="/about" :active="request()->is('about')">About</x-nav-link>
               <x-nav-link href="/contact" :active="request()->is('contact')">Contact</x-nav-link>
@@ -24,7 +24,7 @@
 
   <header class="bg-light py-4 border-bottom">
     <div class="container">
-        <h1 class="display-5 fw-bold text-dark mb-0">{{ $heading }}</h1>
+        <div class="d-flex justify-content-between align-items-center">{{ $heading }}</div>
     </div>
   </header>
   <main>

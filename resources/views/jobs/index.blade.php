@@ -1,6 +1,7 @@
 <x-layout>
     <x-slot:heading>
-        Job Details
+        <span>Job Details</span>
+        <x-button href="{{ route('jobs.create') }}">Post Job</x-button>
     </x-slot:heading>
 
     <div class="row justify-content-center">
@@ -18,6 +19,10 @@
                         </div>
                     </a>
                 @endforeach
+            </div>
+
+            <div class="mt-4">
+                {{ $jobs->links() }}
             </div>
         </div>
     </div>
