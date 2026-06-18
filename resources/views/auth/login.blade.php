@@ -50,7 +50,6 @@
     document.getElementById('loginForm').addEventListener('submit', function(event) {
         event.preventDefault(); 
         
-        // These lines will now execute successfully without throwing an error
         document.getElementById('email-error').classList.add('d-none');
         document.getElementById('password-error').classList.add('d-none');
         document.getElementById('general-error').classList.add('d-none');
