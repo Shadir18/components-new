@@ -15,7 +15,7 @@ class RegisteredUserController extends Controller
         return view('auth.register');
     }
 
-    public function store()
+    public function store(Request $request)
     {
         $attributes = request()->validate([
             'first_name' => ['required'],
@@ -30,6 +30,9 @@ class RegisteredUserController extends Controller
             'name' => $attributes['first_name']
         ]);
         Auth::login($user);
-        return redirect('/jobs');
+        return response()->json([
+            'message' => 'Your account has been created successfully!',
+            'user' => $user
+        ], 201);
     }
 }
