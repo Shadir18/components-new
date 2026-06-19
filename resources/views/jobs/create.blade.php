@@ -13,7 +13,9 @@
             </div>
             
             <div class="card-body p-4">
-                <form action="/jobs" method="post">
+                <div id="success-alert" class="alert alert-success d-none mb-4 font-weight-bold"></div>
+
+                <form id="createJobForm">
                     @csrf
                     
                     <x-form-field class="form-group mb-4">
@@ -56,13 +58,45 @@
 
                     <div class="border-top pt-3 mt-4 d-flex justify-content-end align-items-center">
                         <a href="/jobs" class="btn btn-light border mr-2 px-4"> Cancel </a>
-                        
-                        <x-form-button type="submit" class="btn btn-primary px-4 font-weight-bold">
-                            Save Job
-                        </x-form-button>
+                        @auth
+                            <x-form-button type="submit" class="btn btn-primary px-4 font-weight-bold">
+                                Save Job
+                            </x-form-button>
+                        @else
+                            <a href="/login" class="btn btn-secondary px-4">Log in to Post a Job</a>
+                        @endauth
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </x-layout>
+<script>
+    document.getElementById('createJobForm').addEventListener('submit', async function(event) {
+        event.preventDefault(); 
+        
+        document.querySelectorAll('[id$="-error"], #success-alert').forEach(el => el.classList.add('d-none'));
+
+        try {
+            const data = Object.fromEntries(new FormData(this));
+            const response = await axios.post('/jobs', data);
+            
+            const successAlert = document.getElementById('success-alert');
+
+            setTimeout(() => {
+                window.location.href = '/jobs';
+            }, 2000);
+
+        } catch (error) {
+            if (error.response?.status === 422) {
+                Object.entries(error.response.data.errors).forEach(([field, messages]) => {
+                    const errorEl = document.getElementById(`${field}-error`);
+                    if (errorEl) {
+                        errorEl.innerText = messages[0];
+                        errorEl.classList.remove('d-none');
+                    }
+                });
+            }
+        }
+    });
+</script>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Job;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class JobController extends Controller
 {
@@ -29,14 +30,20 @@ class JobController extends Controller
      */
     public function store(Request $request)
     {
-        request()->validate([
+        $attributes = $request->validate([
             'title' => ['required', 'min:5'],
             'company' => ['required'],
             'salary' => ['required']
         ]);
-        $attributes['employer_id'] = auth()->user()->employer->id;
-        Job::create($request->all());
-        return redirect()->route('jobs.index')->with('success', 'job cerated successfully');
+        $employer = Auth::user()->employer;
+        if (! $employer) {
+            abort(403, 'You must be an employer to post jobs');
+        }
+        $attributes['employer_id'] = $employer->id;
+        Job::create($attributes);
+        return response()->json([
+            'message' => 'Job listing posted successfully!'
+        ], 201);
     }
 
     /**
