@@ -30,7 +30,7 @@
                         <span class="navbar-text text-light small mr-3">
                             Welcome, {{ auth()->user()->first_name }}
                         </span>
-                        <form action="/logout" method="POST" class="form-inline m-0">
+                        <form method="POST" action="/" class="form-inline m-0">
                             @csrf
                             <button type="submit" onclick="handleLogout()" class="btn btn-danger btn-sm px-3 font-weight-bold">Log Out</button>
                         </form>
