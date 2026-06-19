@@ -41,7 +41,9 @@ class JobController extends Controller
         }
         $attributes['employer_id'] = $employer->id;
         Job::create($attributes);
-        return redirect('/jobs');
+        return response()->json([
+            'message' => 'Job listing posted successfully!'
+        ], 201);
     }
 
     /**

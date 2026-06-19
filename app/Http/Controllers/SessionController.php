@@ -13,24 +13,29 @@ class SessionController extends Controller
         return view('auth.login');
     }
 
-    public function store()
+    public function store(Request $request)
     {
         $attributes = request()->validate([
             'email' => ['required', 'email'],
             'password' => ['required']
         ]);
-        if (! Auth::attempt($attributes)) {
-            throw ValidationException::withMessages([
-                'email' => 'Sorry, those credentials do not match.'
-            ]);
+        if (Auth::attempt($attributes)) {
+            $request->session()->regenerate();
+
+            return response()->json([
+                'message' => 'Logged in successfully',
+                'user' => Auth::user()
+            ], 200);
         }
-        request()->session()->regenerate();
-        return redirect('/jobs');
+
+        return response()->json(['message' => 'Invalid credentials'], 401);
     }
 
     public function destroy()
     {
         Auth::logout();
-        return redirect('/jobs');
+        return response()->json([
+        'message' => 'Logged out successfully'
+    ], 200);
     }
 }

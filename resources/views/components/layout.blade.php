@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Document</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/bootstrap.js'])
 </head>
 <body>
 
@@ -31,7 +32,7 @@
                         </span>
                         <form action="/logout" method="POST" class="form-inline m-0">
                             @csrf
-                            <button type="submit" class="btn btn-danger btn-sm px-3 font-weight-bold">Log Out</button>
+                            <button type="submit" onclick="handleLogout()" class="btn btn-danger btn-sm px-3 font-weight-bold">Log Out</button>
                         </form>
                     @endauth
                 </div>
@@ -59,3 +60,14 @@
 
 </body>
 </html>
+<script>
+function handleLogout() {
+    axios.post('/logout')
+        .then(response => {
+            window.location.href = '/jobs';
+        })
+        .catch(error => {
+            console.error('Logout failed:', error);
+        });
+}
+</script>
