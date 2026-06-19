@@ -69,7 +69,6 @@
         </div>
     </div>
 </x-layout>
-
 <script>
     document.getElementById('registerForm').addEventListener('submit', async function(event) {
         event.preventDefault(); 
