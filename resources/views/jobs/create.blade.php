@@ -58,10 +58,13 @@
 
                     <div class="border-top pt-3 mt-4 d-flex justify-content-end align-items-center">
                         <a href="/jobs" class="btn btn-light border mr-2 px-4"> Cancel </a>
-                        
-                        <x-form-button type="submit" class="btn btn-primary px-4 font-weight-bold">
-                            Save Job
-                        </x-form-button>
+                        @auth
+                            <x-form-button type="submit" class="btn btn-primary px-4 font-weight-bold">
+                                Save Job
+                            </x-form-button>
+                        @else
+                            <a href="/login" class="btn btn-secondary px-4">Log in to Post a Job</a>
+                        @endauth
                     </div>
                 </form>
             </div>
