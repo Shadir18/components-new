@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware(['auth'])->group(function () {
-    Route::resource('jobs', JobController::class)->only(['create', 'store', 'edit', 'update', 'destroy']);
+    Route::resource('jobs', JobController::class);
 });
 Route::resource('jobs', JobController::class)->only(['index', 'show']);
 
