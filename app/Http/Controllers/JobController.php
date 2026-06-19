@@ -9,10 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class JobController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth')->only(['create', 'store', 'edit', 'update', 'destroy']);
-    }
 
     /**
      * Display a listing of the resource.

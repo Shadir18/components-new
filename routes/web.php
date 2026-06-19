@@ -6,7 +6,10 @@ use App\Http\Controllers\SessionController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::resource('jobs', JobController::class);
+Route::middleware(['auth'])->group(function () {
+    Route::resource('jobs', JobController::class);
+});
+Route::resource('jobs', JobController::class)->only(['index', 'show']);
 
 Route::get('/about', function(){
     return view('about');
