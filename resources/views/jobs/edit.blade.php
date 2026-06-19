@@ -10,7 +10,7 @@
             </div>
             
             <div class="card-body">
-                <form method="POST" action="/jobs/{{ $job->id }}">
+                <form id="editJobForm" method="POST" action="/jobs/{{ $job->id }}" >
                     @csrf
                     @method('PATCH')
                     
@@ -70,3 +70,44 @@
         @method('DELETE')
     </form>
 </x-layout>
+<script>
+document.getElementById('editJobForm').addEventListener('submit', async function(event) {
+    event.preventDefault();
+
+    document.querySelectorAll('[id$="-error"]').forEach(el => {
+        el.innerText = '';
+        el.classList.add('d-none');
+    });
+
+    try {
+        const data = {
+            title: document.querySelector('#title').value,
+            company: document.querySelector('#company').value,
+            salary: document.querySelector('#salary').value,
+        };
+        const response = await axios.patch('/jobs/{{ $job->id }}', data);
+        window.location.href = response.data.redirect_url;
+    } catch (error) {
+        if (error.response?.status === 422) {
+            Object.entries(error.response.data.errors).forEach(([field, messages]) => {
+                const errorEl = document.getElementById(`${field}-error`);
+                if (errorEl) {
+                    errorEl.innerText = messages[0];
+                    errorEl.classList.remove('d-none');
+                }
+            });
+        }
+    }
+});
+document.getElementById('delete-form').addEventListener('submit', async function (event) {
+    event.preventDefault();
+    try {
+        const response = await axios.delete('/jobs/{{ $job->id }}');
+
+    window.location.href = response.data.redirect_url;
+    } catch (error) {
+        console.error('An error occurred during deletion execution:', error);
+        alert('Could not delete the job listing record. Please try again.');
+    }
+});
+</script>

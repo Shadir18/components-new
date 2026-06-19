@@ -4,10 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Job;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class JobController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth')->only(['create', 'store', 'edit', 'update', 'destroy']);
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -74,16 +80,24 @@ class JobController extends Controller
         ]);
 
         $job->update($attributes);
-        return redirect('/jobs/'. $job->id);
+        return response()->json([
+            'success' => true,
+            'message' => 'Job updated successfully!',
+            'job' => $job,
+            'redirect_url' => '/jobs/' . $job->id
+        ], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Job $job)
+    public function destroy(Request $request, Job $job)
     {
         $job->delete();
-
-        return redirect('/jobs');
+        return response()->json([
+            'success' => true,
+            'message' => 'Job deleted successfully!',
+            'redirect_url' => '/jobs'
+        ], 200);
     }
 }
