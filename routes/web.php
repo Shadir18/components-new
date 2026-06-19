@@ -1,10 +1,18 @@
 <?php
 
 use App\Http\Controllers\JobController;
-use App\Http\Controllers\RegisteredUserController;
-use App\Http\Controllers\SessionController;
+use App\Models\Job;
 use Illuminate\Support\Facades\Route;
 
+Route::get('/jobs.index', function () {
+    $job = Job::first();
+
+    if (! $job) {
+        abort(404, 'No jobs available.');
+    }
+
+    return redirect()->route('jobs.index', $job);
+});
 
 Route::resource('jobs', JobController::class);
 
@@ -15,10 +23,3 @@ Route::get('/about', function(){
 Route::get('/contact', function() {
     return view('contact');
 });
-
-Route::get('/register', [RegisteredUserController::class, 'create']);
-Route::post('/register', [RegisteredUserController::class, 'store']);
-
-Route::get('/login', [SessionController::class, 'create'])->name('login');
-Route::post('/login', [SessionController::class, 'store']);
-Route::post('/logout', [SessionController::class, 'destroy']);

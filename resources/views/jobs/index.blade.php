@@ -1,6 +1,6 @@
 <x-layout>
     <x-slot:heading>
-        <span>Job Details</span>
+        Job Details
     </x-slot:heading>
 
     <div class="row justify-content-center">
@@ -19,10 +19,37 @@
                     </a>
                 @endforeach
             </div>
-
-            <div class="mt-4">
-                {{ $jobs->links() }}
-            </div>
         </div>
     </div>
 </x-layout>
+
+{{-- <x-layout>
+    <x-slot:heading>{{ $job->title ?? 'Jobs' }}</x-slot:heading>
+
+    <section class="container py-4">
+        <div class="mb-4">
+            <h2 class="h4">Selected Job</h2>
+            <p><strong>Title:</strong> {{ $job->title }}</p>
+            <p><strong>Company:</strong> {{ $job->company }}</p>
+            <p><strong>Salary:</strong> {{ $job->salary }}</p>
+        </div>
+
+        <div>
+            <h2 class="h4">All Jobs</h2>
+            <ul>
+                @forelse ($jobs as $jobItem)
+                    <li>
+                        <a href="{{ route('jobs.show', $jobItem) }}">
+                            <strong>{{ $jobItem->title }}</strong>
+                        </a>
+                        @if($jobItem->company)
+                            — {{ $jobItem->company }}
+                        @endif
+                    </li>
+                @empty
+                    <li>No jobs available.</li>
+                @endforelse
+            </ul>
+        </div>
+    </section>
+</x-layout> --}}

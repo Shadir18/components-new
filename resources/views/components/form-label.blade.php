@@ -1,1 +1,0 @@
-<label {{ $attributes->merge(['class' => 'formGroupExampleInput'])}}> {{ $slot }} </label>

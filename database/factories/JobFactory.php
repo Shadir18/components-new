@@ -20,8 +20,7 @@ class JobFactory extends Factory
         return [
             'title' => $this->faker->jobTitle(),
             'company' => $this->faker->company(),
-            'salary' => $this->faker->randomNumber(5),
-            'employer_id' => 1
+            'salary' => $this->faker->randomNumber(5)
         ];
     }
 }

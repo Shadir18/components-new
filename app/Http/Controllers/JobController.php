@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Job;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class JobController extends Controller
 {
@@ -22,7 +21,7 @@ class JobController extends Controller
      */
     public function create()
     {
-        return view('jobs.create');
+        //
     }
 
     /**
@@ -30,20 +29,7 @@ class JobController extends Controller
      */
     public function store(Request $request)
     {
-        $attributes = $request->validate([
-            'title' => ['required', 'min:5'],
-            'company' => ['required'],
-            'salary' => ['required']
-        ]);
-        $employer = Auth::user()->employer;
-        if (! $employer) {
-            abort(403, 'You must be an employer to post jobs');
-        }
-        $attributes['employer_id'] = $employer->id;
-        Job::create($attributes);
-        return response()->json([
-            'message' => 'Job listing posted successfully!'
-        ], 201);
+        //
     }
 
     /**
@@ -51,7 +37,10 @@ class JobController extends Controller
      */
     public function show(Job $job)
     {
-        return view('jobs.show', ['job' => $job]);
+        return view('index', [
+            'job' => $job,
+            'jobs' => Job::all(),
+        ]);
     }
 
     /**
@@ -59,7 +48,7 @@ class JobController extends Controller
      */
     public function edit(Job $job)
     {
-        return view('jobs.edit', ['job' => $job]);
+        //
     }
 
     /**
@@ -67,14 +56,7 @@ class JobController extends Controller
      */
     public function update(Request $request, Job $job)
     {
-        $attributes = $request->validate([
-            'title' => ['required', 'min:5'],
-            'company' => ['required'],
-            'salary' => ['required']
-        ]);
-
-        $job->update($attributes);
-        return redirect('/jobs/'. $job->id);
+        //
     }
 
     /**
@@ -82,8 +64,6 @@ class JobController extends Controller
      */
     public function destroy(Job $job)
     {
-        $job->delete();
-
-        return redirect('/jobs');
+        //
     }
 }
