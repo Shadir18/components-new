@@ -35,7 +35,7 @@
                     <div id="general-error" class="alert alert-danger d-none mb-3"></div>
 
                     <div class="border-top pt-3 mt-4 d-flex justify-content-end align-items-center">
-                        <a href="/jobs" class="btn btn-light border mr-2 px-4"> Go Back </a>
+                        <a href="/products" class="btn btn-light border mr-2 px-4"> Go Back </a>
                         <x-form-button type="submit" class="btn btn-primary px-4 font-weight-bold">
                             Login
                         </x-form-button>
@@ -59,7 +59,7 @@
             password: document.getElementById('password').value
         })
         .then(response => {
-            window.location.href = '/jobs';
+            window.location.href = '/products';
         })
         .catch(error => {
             if (error.response && error.response.status === 422) {

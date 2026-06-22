@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
-use App\Models\Employer;
+use App\Models\Seller;
 
 class RegisteredUserController extends Controller
 {
@@ -25,7 +25,7 @@ class RegisteredUserController extends Controller
         ]);
 
         $user = User::create($attributes);
-        Employer::create([
+        Seller::create([
             'user_id' => $user->id,
             'name' => $attributes['first_name']
         ]);

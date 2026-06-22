@@ -18,10 +18,10 @@ class JobFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->jobTitle(),
+            'title' => $this->faker->productTitle(),
             'company' => $this->faker->company(),
-            'salary' => $this->faker->randomNumber(5),
-            'employer_id' => 1
+            'price' => $this->faker->randomNumber(3),
+            'seller_id' => 1
         ];
     }
 }
