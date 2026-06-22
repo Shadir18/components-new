@@ -5,18 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Document</title>
-    @vite(['resources/css/app.css', 'resources/js/app.js', 'resources/js/bootstrap.js'])
+    <title>Product CRUD</title>
+    @vite(['resources/scss/app.scss', 'resources/js/app.js'])
 </head>
 <body>
 
 <div class="min-h-full">
   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="container">
-      <a class="navbar-brand font-weight-bold text-uppercase" href="/jobs">Dashboard</a>
+      <a class="navbar-brand font-weight-bold text-uppercase" href="/products">Dashboard</a>
         <div class="collapse navbar-collapse" id="navbarNav">
             <div class="navbar-nav ml-auto gap-2">
-              <x-nav-link href="/jobs" :active="request()->is('jobs')">Home</x-nav-link>
+              <x-nav-link href="/products" :active="request()->is('products')">Home</x-nav-link>
               <x-nav-link href="/about" :active="request()->is('about')">About</x-nav-link>
               <x-nav-link href="/contact" :active="request()->is('contact')">Contact</x-nav-link>
             </div>
@@ -47,7 +47,7 @@
           {{ $heading }} 
         </h1> 
         <div>
-          <x-button href="/jobs/create"> create Job </x-button>
+          <x-button href="/products/create"> Create Product </x-button>
         </div>
       </div>
     </div>
@@ -64,7 +64,7 @@
 function handleLogout() {
     axios.post('/logout')
         .then(response => {
-            window.location.href = '/jobs';
+            window.location.href = '/products';
         })
         .catch(error => {
             console.error('Logout failed:', error);

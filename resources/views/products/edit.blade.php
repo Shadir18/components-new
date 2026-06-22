@@ -1,26 +1,26 @@
 <x-layout>
     <x-slot:heading>
-        Edit Job: {{ $job->title }}
+        Edit Product: {{ $product->title }}
     </x-slot:heading>
 
     <div class="container my-5">
         <div class="card shadow-sm">
             <div class="card-header bg-dark text-white">
-                <h4 class="mb-0">Job Details</h4>
+                <h4 class="mb-0">Product Details</h4>
             </div>
             
             <div class="card-body">
-                <form id="editJobForm" method="POST" action="/jobs/{{ $job->id }}" >
+                <form id="editProductForm" method="POST" action="/products/{{ $product->id }}" >
                     @csrf
                     @method('PATCH')
                     
                     <div class="form-group mb-4">
-                        <label for="title" class="font-weight-bold">Job Title</label>
+                        <label for="title" class="font-weight-bold">Product Name</label>
                         <input id="title" 
                                type="text" 
                                name="title" 
                                class="form-control @error('title') is-invalid @enderror" 
-                               value="{{ $job->title }}" 
+                               value="{{ $product->title }}" 
                                required>
                         @error('title') 
                             <div class="invalid-feedback">{{ $message }}</div> 
@@ -33,31 +33,31 @@
                                       type="text" 
                                       name="company" 
                                       class="form-control" 
-                                      value="{{ $job->company }}">
+                                      value="{{ $product->company }}">
                         </x-form-input>
                     </div>
 
                     <div class="form-group mb-4">
-                        <label for="salary" class="font-weight-bold">Salary</label>
-                        <x-form-input id="salary" 
+                        <label for="price" class="font-weight-bold">Price</label>
+                        <x-form-input id="price" 
                                       type="text" 
-                                      name="salary" 
+                                      name="price" 
                                       class="form-control" 
-                                      value="{{ $job->salary }}">
+                                      value="{{ $product->price }}">
                         </x-form-input>
-                        @error('salary') 
+                        @error('price') 
                             <div class="invalid-feedback">{{ $message }}</div> 
                         @enderror
                     </div>
 
                     <div class="border-top pt-3 d-flex justify-content-between align-items-center">
                         <button type="submit" form="delete-form" class="btn btn-outline-danger">
-                            <i class="fas fa-trash-alt mr-1"></i> Delete Job
+                            <i class="fas fa-trash-alt mr-1"></i> Delete Product
                         </button>
                         
                         <div>
-                            <a href="/jobs/{{ $job->id }}" class="btn btn-light border mr-2"> Cancel </a>
-                            <button type="submit" class="btn btn-primary px-4"> Update Job </button>
+                            <a href="/products/{{ $product->id }}" class="btn btn-light border mr-2"> Cancel </a>
+                            <button type="submit" class="btn btn-primary px-4"> Update Product </button>
                         </div>
                     </div>
                 </form>
@@ -65,13 +65,13 @@
         </div>
     </div>
 
-    <form method="POST" action="/jobs/{{ $job->id }}" id="delete-form" class="d-none">
+    <form method="POST" action="/products/{{ $product->id }}" id="delete-form" class="d-none">
         @csrf
         @method('DELETE')
     </form>
 </x-layout>
 <script>
-document.getElementById('editJobForm').addEventListener('submit', async function(event) {
+document.getElementById('editProductForm').addEventListener('submit', async function(event) {
     event.preventDefault();
 
     document.querySelectorAll('[id$="-error"]').forEach(el => {
@@ -83,9 +83,9 @@ document.getElementById('editJobForm').addEventListener('submit', async function
         const data = {
             title: document.querySelector('#title').value,
             company: document.querySelector('#company').value,
-            salary: document.querySelector('#salary').value,
+            price: document.querySelector('#price').value,
         };
-        const response = await axios.patch('/jobs/{{ $job->id }}', data);
+        const response = await axios.patch('/products/{{ $product->id }}', data);
         window.location.href = response.data.redirect_url;
     } catch (error) {
         if (error.response?.status === 422) {
@@ -102,12 +102,12 @@ document.getElementById('editJobForm').addEventListener('submit', async function
 document.getElementById('delete-form').addEventListener('submit', async function (event) {
     event.preventDefault();
     try {
-        const response = await axios.delete('/jobs/{{ $job->id }}');
+        const response = await axios.delete('/products/{{ $product->id }}');
 
     window.location.href = response.data.redirect_url;
     } catch (error) {
         console.error('An error occurred during deletion execution:', error);
-        alert('Could not delete the job listing record. Please try again.');
+        alert('Could not delete the product listing record. Please try again.');
     }
 });
 </script>

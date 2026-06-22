@@ -59,7 +59,7 @@
                     </x-form-field>
 
                     <div class="border-top pt-3 mt-4 d-flex justify-content-end align-items-center">
-                        <a href="/jobs" class="btn btn-light border mr-2 px-4"> Go Back </a>
+                        <a href="/products" class="btn btn-light border mr-2 px-4"> Go Back </a>
                         <x-form-button type="submit" class="btn btn-primary px-4 font-weight-bold">
                             Register
                         </x-form-button>
@@ -77,7 +77,7 @@
             const data = Object.fromEntries(new FormData(this));
             const response = await axios.post('/register', data);
 
-            setTimeout(() => window.location.href = '/jobs', 100);
+            setTimeout(() => window.location.href = '/products', 100);
         } catch (error) {
             if (error.response?.status === 422) {
                 Object.entries(error.response.data.errors).forEach(([field, messages]) => {

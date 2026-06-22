@@ -1,15 +1,15 @@
 <?php
 
-use App\Http\Controllers\JobController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RegisteredUserController;
 use App\Http\Controllers\SessionController;
 use Illuminate\Support\Facades\Route;
 
 
 Route::middleware(['auth'])->group(function () {
-    Route::resource('jobs', JobController::class);
+    Route::resource('products', ProductController::class);
 });
-Route::resource('jobs', JobController::class)->only(['index', 'show']);
+Route::resource('products', ProductController::class)->only(['index', 'show']);
 
 Route::get('/about', function(){
     return view('about');

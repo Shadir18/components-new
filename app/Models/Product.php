@@ -5,19 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Job extends Model
+class Product extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'title',
         'company',
-        'salary',
-        'employer_id'
+        'price',
+        'seller_id'
     ];
 
-    public function employer()
+    public function seller()
     {
-        return $this->belongsTo(Employer::class);
+        return $this->belongsTo(Seller::class);
     }
 }

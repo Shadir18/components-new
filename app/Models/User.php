@@ -22,9 +22,9 @@ class User extends Authenticatable
         'password',
     ];
 
-    public function employer()
+    public function seller()
     {
-        return $this->hasOne(Employer::class);
+        return $this->hasOne(Seller::class);
     }
 
     /**

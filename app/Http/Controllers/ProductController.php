@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Job;
+use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 
-class JobController extends Controller
+class ProductController extends Controller
 {
 
     /**
@@ -15,8 +15,8 @@ class JobController extends Controller
      */
     public function index()
     {
-        $jobs = Job::latest()->simplePaginate(5);
-        return view('jobs.index', compact('jobs'));
+        $products = Product::latest()->simplePaginate(5);
+        return view('products.index', compact('products'));
     }
 
     /**
@@ -24,7 +24,7 @@ class JobController extends Controller
      */
     public function create()
     {
-        return view('jobs.create');
+        return view('products.create');
     }
 
     /**
@@ -35,65 +35,65 @@ class JobController extends Controller
         $attributes = $request->validate([
             'title' => ['required', 'min:5'],
             'company' => ['required'],
-            'salary' => ['required']
+            'price' => ['required']
         ]);
-        $employer = Auth::user()->employer;
-        if (! $employer) {
-            abort(403, 'You must be an employer to post jobs');
+        $seller = Auth::user()->seller;
+        if (! $seller) {
+            abort(403, 'You must be an seller to post products');
         }
-        $attributes['employer_id'] = $employer->id;
-        Job::create($attributes);
+        $attributes['seller_id'] = $seller->id;
+        Product::create($attributes);
         return response()->json([
-            'message' => 'Job listing posted successfully!'
+            'message' => 'Product listing posted successfully!'
         ], 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Job $job)
+    public function show(Product $product)
     {
-        return view('jobs.show', ['job' => $job]);
+        return view('products.show', ['product' => $product]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Job $job)
+    public function edit(Product $product)
     {
-        return view('jobs.edit', ['job' => $job]);
+        return view('products.edit', ['product' => $product]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Job $job)
+    public function update(Request $request, Product $product)
     {
         $attributes = $request->validate([
             'title' => ['required', 'min:5'],
             'company' => ['required'],
-            'salary' => ['required']
+            'price' => ['required']
         ]);
 
-        $job->update($attributes);
+        $product->update($attributes);
         return response()->json([
             'success' => true,
-            'message' => 'Job updated successfully!',
-            'job' => $job,
-            'redirect_url' => '/jobs/' . $job->id
+            'message' => 'Product updated successfully!',
+            'product' => $product,
+            'redirect_url' => '/products/' . $product->id
         ], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Request $request, Job $job)
+    public function destroy(Request $request, Product $product)
     {
-        $job->delete();
+        $product->delete();
         return response()->json([
             'success' => true,
-            'message' => 'Job deleted successfully!',
-            'redirect_url' => '/jobs'
+            'message' => 'Product deleted successfully!',
+            'redirect_url' => '/products'
         ], 200);
     }
 }

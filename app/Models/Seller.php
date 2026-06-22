@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Employer extends Model
+class Seller extends Model
 {
     use HasFactory;
 
@@ -15,9 +15,9 @@ class Employer extends Model
         'name',
     ];
 
-    public function jobs()
+    public function products()
     {
-        return $this->hasMany(Job::class);
+        return $this->hasMany(Product::class);
     }
 
     public function user(): BelongsTo
