@@ -6,6 +6,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 use function Pest\Laravel\json;
 
@@ -47,14 +48,17 @@ class ProductController extends Controller
             ], 403);
         }
         try {
+            DB::beginTransaction();
             $attributes['seller_id'] = $seller->id;
             $product = Product::create($attributes);
+            DB::commit();
             return response()->json([
                 'success' => true,
                 'message' => 'Product listing posted successfully!',
                 'data' => $product
             ], 201);
         } catch (\Throwable $th) {
+            DB::rollBack();
             return response()->json([
                 'success' => false,
                 'message' => 'Failed to create product'
@@ -89,7 +93,9 @@ class ProductController extends Controller
                 'price' => ['required']
             ]);
         try {
+            DB::beginTransaction();
             $product->update($attributes);
+            DB::commit();
             return response()->json([
                 'success' => true,
                 'message' => 'Product updated successfully!',
@@ -97,6 +103,7 @@ class ProductController extends Controller
                 'redirect_url' => '/products/' . $product->id
             ], 200);
         } catch (\Throwable $th) {
+            DB::rollBack();
             return response()->json([
                 'message' => 'Failed to create product'
             ], 500);
@@ -108,11 +115,21 @@ class ProductController extends Controller
      */
     public function destroy(Request $request, Product $product)
     {
-        $product->delete();
-        return response()->json([
-            'success' => true,
-            'message' => 'Product deleted successfully!',
-            'redirect_url' => '/products'
-        ], 200);
+        DB::beginTransaction();
+        try {
+            $product->delete();
+            DB::commit();
+            return response()->json([
+                'success' => true, 
+                'message' => 'delete success',
+                'redirect_url' => '/products'
+            ], 200);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return response()->json([
+                'success' => false, 
+                'message' => 'Failed to delete'
+            ], 500);
+        }
     }
 }

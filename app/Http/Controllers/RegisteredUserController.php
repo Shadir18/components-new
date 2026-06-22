@@ -25,24 +25,23 @@ class RegisteredUserController extends Controller
             'password' => ['required', Password::min(6), 'confirmed'],
         ]);
         try {
-            $user = DB::transaction(function () use ($attributes){
-                $user = User::create($attributes);
-                Seller::create([
-                    'user_id' => $user->id,
-                    'name' => $attributes['first_name']
-                ]);
-                return $user;
-            });
+            DB::beginTransaction();
+            $user = User::create($attributes);
+            Seller::create([
+                'user_id' => $user->id,
+                'name' => $attributes['first_name']
+            ]);
+            DB::commit();
             Auth::login($user);
-                return response()->json([
-                    'message' => 'Your account has been created successfully!',
-                    'user' => $user
-                ], 201);
+            return response()->json([
+                'message' => 'Your account has been created successfully!',
+                'user' => $user
+            ], 201);
         } catch (\Throwable $th) {
+            DB::rollBack();
             return response()->json([
             'message' => 'Registration failed',
         ], 500);
         }
-        
     }
 }
