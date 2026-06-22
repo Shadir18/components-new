@@ -1,14 +1,2 @@
-// ==========================================================================
-// App Stylesheet (SCSS)
-// ==========================================================================
-
-// 1. Custom variables — must come BEFORE Bootstrap
 @import "variables";
-
-// 2. Bootstrap SCSS source (not compiled CSS) — picks up our variable overrides
 @import "bootstrap/scss/bootstrap";
-
-// 3. Custom styles
-// Add your own component styles below:
-// @import "components/buttons";
-// @import "components/cards";
