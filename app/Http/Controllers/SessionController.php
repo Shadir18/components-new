@@ -19,16 +19,23 @@ class SessionController extends Controller
             'email' => ['required', 'email'],
             'password' => ['required']
         ]);
-        if (Auth::attempt($attributes)) {
-            $request->session()->regenerate();
+        try {
+            if (Auth::attempt($attributes)) {
+                $request->session()->regenerate();
 
+                return response()->json([
+                    'message' => 'Logged in successfully',
+                    'user' => Auth::user()
+                ], 200);
+            }
             return response()->json([
-                'message' => 'Logged in successfully',
-                'user' => Auth::user()
-            ], 200);
+                'message' => 'Invalid credentials'
+                ], 401);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'Server error',
+        ], 500);
         }
-
-        return response()->json(['message' => 'Invalid credentials'], 401);
     }
 
     public function destroy()

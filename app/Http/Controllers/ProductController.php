@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 
+use function Pest\Laravel\json;
+
 class ProductController extends Controller
 {
 
@@ -39,13 +41,25 @@ class ProductController extends Controller
         ]);
         $seller = Auth::user()->seller;
         if (! $seller) {
-            abort(403, 'You must be an seller to post products');
+            return response()->json([
+                'success' => false,
+                'message' => 'You must be an seller to post products'
+            ], 403);
         }
-        $attributes['seller_id'] = $seller->id;
-        Product::create($attributes);
-        return response()->json([
-            'message' => 'Product listing posted successfully!'
-        ], 201);
+        try {
+            $attributes['seller_id'] = $seller->id;
+            $product = Product::create($attributes);
+            return response()->json([
+                'success' => true,
+                'message' => 'Product listing posted successfully!',
+                'data' => $product
+            ], 201);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to create product'
+            ], 500);
+        }
     }
 
     /**
@@ -70,18 +84,23 @@ class ProductController extends Controller
     public function update(Request $request, Product $product)
     {
         $attributes = $request->validate([
-            'title' => ['required', 'min:5'],
-            'company' => ['required'],
-            'price' => ['required']
-        ]);
-
-        $product->update($attributes);
-        return response()->json([
-            'success' => true,
-            'message' => 'Product updated successfully!',
-            'product' => $product,
-            'redirect_url' => '/products/' . $product->id
-        ], 200);
+                'title' => ['required', 'min:5'],
+                'company' => ['required'],
+                'price' => ['required']
+            ]);
+        try {
+            $product->update($attributes);
+            return response()->json([
+                'success' => true,
+                'message' => 'Product updated successfully!',
+                'product' => $product,
+                'redirect_url' => '/products/' . $product->id
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'Failed to create product'
+            ], 500);
+        }
     }
 
     /**
