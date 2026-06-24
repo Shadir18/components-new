@@ -68,32 +68,30 @@
         </div>
     </div>
 </x-layout>
-<script>
-    document.getElementById('productForm').addEventListener('submit', async function(event) {
+<script type="module">
+    $('#productForm').on('submit', function(event) {
         event.preventDefault(); 
         
-        document.querySelectorAll('[id$="-error"], #success-alert').forEach(el => el.classList.add('d-none'));
+        $('[id$="-error"], #success-alert').addClass('d-none');
 
-        try {
-            const data = Object.fromEntries(new FormData(this));
-            const response = await axios.post('/products', data);
-            
-            const successAlert = document.getElementById('success-alert');
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData.entries());
 
-            setTimeout(() => {
-                window.location.href = '/products';
-            }, 2000);
-
-        } catch (error) {
-            if (error.response?.status === 422) {
-                Object.entries(error.response.data.errors).forEach(([field, messages]) => {
-                    const errorEl = document.getElementById(`${field}-error`);
-                    if (errorEl) {
-                        errorEl.innerText = messages[0];
-                        errorEl.classList.remove('d-none');
-                    }
-                });
-            }
-        }
+        $.post('/products', data)
+            .done(function(response) {
+                setTimeout(() => {
+                    window.location.href = '/products';
+                }, 2000);
+            })
+            .fail(function(xhr) {
+                if (xhr.status === 422) {
+                    $.each(xhr.responseJSON.errors, function(field, messages) {
+                        const errorEl = $(`#${field}-error`);
+                        if (errorEl.length) {
+                            errorEl.text(messages[0]).removeClass('d-none');
+                        }
+                    });
+                }
+            });
     });
 </script>

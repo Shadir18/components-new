@@ -46,35 +46,30 @@
     </div>
 </x-layout>
 
-<script>
-    document.getElementById('loginForm').addEventListener('submit', function(event) {
+<script type="module">
+    $('#loginForm').on('submit', function(event) {
         event.preventDefault(); 
         
-        document.getElementById('email-error').classList.add('d-none');
-        document.getElementById('password-error').classList.add('d-none');
-        document.getElementById('general-error').classList.add('d-none');
+        $('#email-error, #password-error, #general-error').addClass('d-none');
 
-        axios.post('/login', {
-            email: document.getElementById('email').value,
-            password: document.getElementById('password').value
+        $.post('/login', {
+            email: $('#email').val(),
+            password: $('#password').val()
         })
-        .then(response => {
+        .done(function(response) {
             window.location.href = '/products';
         })
-        .catch(error => {
-            if (error.response && error.response.status === 422) {
-                const errors = error.response.data.errors;
+        .fail(function(xhr) {
+            if (xhr.status === 422) {
+                const errors = xhr.responseJSON.errors;
                 if (errors.email) {
-                    document.getElementById('email-error').innerText = errors.email[0];
-                    document.getElementById('email-error').classList.remove('d-none');
+                    $('#email-error').text(errors.email[0]).removeClass('d-none');
                 }
                 if (errors.password) {
-                    document.getElementById('password-error').innerText = errors.password[0];
-                    document.getElementById('password-error').classList.remove('d-none');
+                    $('#password-error').text(errors.password[0]).removeClass('d-none');
                 }
-            } else if (error.response && error.response.status === 401) {
-                document.getElementById('general-error').innerText = error.response.data.message;
-                document.getElementById('general-error').classList.remove('d-none');
+            } else if (xhr.status === 401) {
+                $('#general-error').text(xhr.responseJSON.message).removeClass('d-none');
             }
         });
     });

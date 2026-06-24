@@ -60,13 +60,21 @@
 
 </body>
 </html>
-<script>
-function handleLogout() {
-    axios.post('/logout')
-        .then(response => {
+<script type="module">
+$(document).ready(function() {
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+});
+
+window.handleLogout = function() {
+    $.post('/logout')
+        .done(function(response) {
             window.location.href = '/products';
         })
-        .catch(error => {
+        .fail(function(xhr, status, error) {
             console.error('Logout failed:', error);
         });
 }

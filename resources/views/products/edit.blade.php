@@ -70,44 +70,51 @@
         @method('DELETE')
     </form>
 </x-layout>
-<script>
-document.getElementById('editProductForm').addEventListener('submit', async function(event) {
+<script type="module">
+$('#editProductForm').on('submit', function(event) {
     event.preventDefault();
 
-    document.querySelectorAll('[id$="-error"]').forEach(el => {
-        el.innerText = '';
-        el.classList.add('d-none');
-    });
+    $('[id$="-error"]').text('').addClass('d-none');
 
-    try {
-        const data = {
-            title: document.querySelector('#title').value,
-            company: document.querySelector('#company').value,
-            price: document.querySelector('#price').value,
-        };
-        const response = await axios.patch('/products/{{ $product->id }}', data);
-        window.location.href = response.data.redirect_url;
-    } catch (error) {
-        if (error.response?.status === 422) {
-            Object.entries(error.response.data.errors).forEach(([field, messages]) => {
-                const errorEl = document.getElementById(`${field}-error`);
-                if (errorEl) {
-                    errorEl.innerText = messages[0];
-                    errorEl.classList.remove('d-none');
+    const data = {
+        title: $('#title').val(),
+        company: $('#company').val(),
+        price: $('#price').val(),
+    };
+
+    $.ajax({
+        url: '/products/{{ $product->id }}',
+        type: 'PATCH',
+        data: data
+    })
+    .done(function(response) {
+        window.location.href = response.redirect_url;
+    })
+    .fail(function(xhr) {
+        if (xhr.status === 422) {
+            $.each(xhr.responseJSON.errors, function(field, messages) {
+                const errorEl = $(`#${field}-error`);
+                if (errorEl.length) {
+                    errorEl.text(messages[0]).removeClass('d-none');
                 }
             });
         }
-    }
+    });
 });
-document.getElementById('delete-form').addEventListener('submit', async function (event) {
-    event.preventDefault();
-    try {
-        const response = await axios.delete('/products/{{ $product->id }}');
 
-    window.location.href = response.data.redirect_url;
-    } catch (error) {
-        console.error('An error occurred during deletion execution:', error);
+$('#delete-form').on('submit', function(event) {
+    event.preventDefault();
+    
+    $.ajax({
+        url: '/products/{{ $product->id }}',
+        type: 'DELETE'
+    })
+    .done(function(response) {
+        window.location.href = response.redirect_url;
+    })
+    .fail(function(xhr) {
+        console.error('An error occurred during deletion execution:', xhr.responseText);
         alert('Could not delete the product listing record. Please try again.');
-    }
+    });
 });
 </script>

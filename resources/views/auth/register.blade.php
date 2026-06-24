@@ -69,25 +69,28 @@
         </div>
     </div>
 </x-layout>
-<script>
-    document.getElementById('registerForm').addEventListener('submit', async function(event) {
+<script type="module">
+    $('#registerForm').on('submit', function(event) {
         event.preventDefault(); 
-        document.querySelectorAll('[id$="-error"], #success-alert').forEach(el => el.classList.add('d-none'));
-        try {
-            const data = Object.fromEntries(new FormData(this));
-            const response = await axios.post('/register', data);
+        
+        $('[id$="-error"], #success-alert').addClass('d-none');
 
-            setTimeout(() => window.location.href = '/products', 100);
-        } catch (error) {
-            if (error.response?.status === 422) {
-                Object.entries(error.response.data.errors).forEach(([field, messages]) => {
-                    const errorEl = document.getElementById(`${field}-error`);
-                    if (errorEl) {
-                        errorEl.innerText = messages[0];
-                        errorEl.classList.remove('d-none');
-                    }
-                });
-            }
-        }
+        const formData = new FormData(this);
+        const data = Object.fromEntries(formData.entries());
+
+        $.post('/register', data)
+            .done(function(response) {
+                setTimeout(() => window.location.href = '/products', 100);
+            })
+            .fail(function(xhr) {
+                if (xhr.status === 422) {
+                    $.each(xhr.responseJSON.errors, function(field, messages) {
+                        const errorEl = $(`#${field}-error`);
+                        if (errorEl.length) {
+                            errorEl.text(messages[0]).removeClass('d-none');
+                        }
+                    });
+                }
+            });
     });
 </script>
