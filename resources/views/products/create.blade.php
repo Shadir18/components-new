@@ -69,29 +69,33 @@
     </div>
 </x-layout>
 <script type="module">
-    $('#productForm').on('submit', function(event) {
-        event.preventDefault(); 
-        
-        $('[id$="-error"], #success-alert').addClass('d-none');
-
-        const formData = new FormData(this);
-        const data = Object.fromEntries(formData.entries());
-
-        $.post('/products', data)
-            .done(function(response) {
-                setTimeout(() => {
+    $(document).ready(function() {
+        $('#productForm').on('submit', function(e) {
+            e.preventDefault();
+            const formData = Object.fromEntries(new FormData(this));
+            axios.post('/products', formData)
+            .then(function(response) {
+                if (response.data.message) {
+                    $('#success-alert').removeClass('d-none').text(response.data.message);
+                }
+                if (response.data && response.data.redirect_url) {
+                    window.location.href = response.data.redirect_url;
+                } else {
                     window.location.href = '/products';
-                }, 2000);
+                }
             })
-            .fail(function(xhr) {
-                if (xhr.status === 422) {
-                    $.each(xhr.responseJSON.errors, function(field, messages) {
-                        const errorEl = $(`#${field}-error`);
-                        if (errorEl.length) {
-                            errorEl.text(messages[0]).removeClass('d-none');
-                        }
+            .catch(function(error) {
+                console.error(error);
+                if (error.response && error.response.status === 422) {
+                    const errors = error.response.data.errors;
+                    $.each(errors, function(key, val) {
+                        $(`#${key}`).addClass('is-invalid');
+                        $(`x-form-error[name="${key}"]`).text(val[0]);
                     });
+                } else {
+                    alert('An error occurred while creating the product. Please try again.');
                 }
             });
+        });
     });
 </script>

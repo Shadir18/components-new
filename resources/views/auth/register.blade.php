@@ -70,27 +70,26 @@
     </div>
 </x-layout>
 <script type="module">
-    $('#registerForm').on('submit', function(event) {
-        event.preventDefault(); 
-        
-        $('[id$="-error"], #success-alert').addClass('d-none');
-
-        const formData = new FormData(this);
-        const data = Object.fromEntries(formData.entries());
-
-        $.post('/register', data)
-            .done(function(response) {
-                setTimeout(() => window.location.href = '/products', 100);
+    $(document).ready(function(){
+        $('#registerForm').on('submit', function(e){
+            e.preventDefault();
+            const formData = Object.fromEntries(new FormData(this));
+            axios.post('/register', formData)
+            .then(function(response){
+                if (response.data && response.data.redirect_url){
+                    window.location.href = response.data.redirect_url;
+                } else {
+                    window.location.href = '/products';
+                }
             })
-            .fail(function(xhr) {
-                if (xhr.status === 422) {
-                    $.each(xhr.responseJSON.errors, function(field, messages) {
-                        const errorEl = $(`#${field}-error`);
-                        if (errorEl.length) {
-                            errorEl.text(messages[0]).removeClass('d-none');
-                        }
-                    });
+            .catch(function(error){
+                console.error(error);
+                if (error.response && error.response.status === 422) {
+                    const errors = error.response.data.errors;
+                } else {
+                    alert ('something went wrong, try again later');
                 }
             });
+        });
     });
 </script>

@@ -47,30 +47,38 @@
 </x-layout>
 
 <script type="module">
-    $('#loginForm').on('submit', function(event) {
-        event.preventDefault(); 
-        
-        $('#email-error, #password-error, #general-error').addClass('d-none');
-
-        $.post('/login', {
-            email: $('#email').val(),
-            password: $('#password').val()
-        })
-        .done(function(response) {
-            window.location.href = '/products';
-        })
-        .fail(function(xhr) {
-            if (xhr.status === 422) {
-                const errors = xhr.responseJSON.errors;
-                if (errors.email) {
-                    $('#email-error').text(errors.email[0]).removeClass('d-none');
+    $(document).ready(function(){
+        $('#loginForm').on('submit', function(e){
+            e.preventDefault();
+            const email = $('#email').val();
+            const password = $('#password').val();
+            axios.post('/login', {
+                email: email,
+                password: password
+            })
+            .then(function(response){
+                if (response.data.token){
+                    localStorage.setItem('token', response.data.token);
                 }
-                if (errors.password) {
-                    $('#password-error').text(errors.password[0]).removeClass('d-none');
+                window.location.href = '/products';
+                console.log(response.data);
+            })
+            .catch(function(error){
+                console.error(error);
+                if (error.response && error.response.status === 422) {
+                    const error = error.response.data.error;
+                    if (errors.email) {
+                        $('#email-error').removeClass('d-none').text(errors.email[0]);
+                    }
+                    if (errors.password) {
+                        $('#password-error').removeClass('d-none').text(errors.password[0]);
+                    }
+                } else if (error.response && error.response.data && error.response.data.message) {
+                    $('#general-error').removeClass('d-none').text(error.response.data.message);
+                } else {
+                    $('#general-error').removeClass('d-none').text('Please try again later.');
                 }
-            } else if (xhr.status === 401) {
-                $('#general-error').text(xhr.responseJSON.message).removeClass('d-none');
-            }
+            });
         });
     });
 </script>
