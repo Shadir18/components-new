@@ -13,6 +13,14 @@ export default defineConfig({
             ],
         }),
     ],
+    css: {
+        preprocessorOptions: {
+            scss: {
+                quietDeps: true,
+                silenceDeprecations: ['import', 'global-builtin', 'color-functions', 'if-function', 'abs-percent'],
+            },
+        },
+    },
     server: {
         watch: {
             ignored: ['**/storage/framework/views/**'],
