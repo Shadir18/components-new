@@ -68,32 +68,34 @@
         </div>
     </div>
 </x-layout>
-<script>
-    document.getElementById('productForm').addEventListener('submit', async function(event) {
-        event.preventDefault(); 
-        
-        document.querySelectorAll('[id$="-error"], #success-alert').forEach(el => el.classList.add('d-none'));
-
-        try {
-            const data = Object.fromEntries(new FormData(this));
-            const response = await axios.post('/products', data);
-            
-            const successAlert = document.getElementById('success-alert');
-
-            setTimeout(() => {
-                window.location.href = '/products';
-            }, 2000);
-
-        } catch (error) {
-            if (error.response?.status === 422) {
-                Object.entries(error.response.data.errors).forEach(([field, messages]) => {
-                    const errorEl = document.getElementById(`${field}-error`);
-                    if (errorEl) {
-                        errorEl.innerText = messages[0];
-                        errorEl.classList.remove('d-none');
-                    }
-                });
-            }
-        }
+<script type="module">
+    $(document).ready(function() {
+        $('#productForm').on('submit', function(e) {
+            e.preventDefault();
+            const formData = Object.fromEntries(new FormData(this));
+            axios.post('/products', formData)
+            .then(function(response) {
+                if (response.data.message) {
+                    $('#success-alert').removeClass('d-none').text(response.data.message);
+                }
+                if (response.data && response.data.redirect_url) {
+                    window.location.href = response.data.redirect_url;
+                } else {
+                    window.location.href = '/products';
+                }
+            })
+            .catch(function(error) {
+                console.error(error);
+                if (error.response && error.response.status === 422) {
+                    const errors = error.response.data.errors;
+                    $.each(errors, function(key, val) {
+                        $(`#${key}`).addClass('is-invalid');
+                        $(`x-form-error[name="${key}"]`).text(val[0]);
+                    });
+                } else {
+                    alert('An error occurred while creating the product. Please try again.');
+                }
+            });
+        });
     });
 </script>

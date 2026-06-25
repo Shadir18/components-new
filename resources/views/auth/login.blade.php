@@ -46,36 +46,39 @@
     </div>
 </x-layout>
 
-<script>
-    document.getElementById('loginForm').addEventListener('submit', function(event) {
-        event.preventDefault(); 
-        
-        document.getElementById('email-error').classList.add('d-none');
-        document.getElementById('password-error').classList.add('d-none');
-        document.getElementById('general-error').classList.add('d-none');
-
-        axios.post('/login', {
-            email: document.getElementById('email').value,
-            password: document.getElementById('password').value
-        })
-        .then(response => {
-            window.location.href = '/products';
-        })
-        .catch(error => {
-            if (error.response && error.response.status === 422) {
-                const errors = error.response.data.errors;
-                if (errors.email) {
-                    document.getElementById('email-error').innerText = errors.email[0];
-                    document.getElementById('email-error').classList.remove('d-none');
+<script type="module">
+    $(document).ready(function(){
+        $('#loginForm').on('submit', function(e){
+            e.preventDefault();
+            const email = $('#email').val();
+            const password = $('#password').val();
+            axios.post('/login', {
+                email: email,
+                password: password
+            })
+            .then(function(response){
+                if (response.data.token){
+                    localStorage.setItem('token', response.data.token);
                 }
-                if (errors.password) {
-                    document.getElementById('password-error').innerText = errors.password[0];
-                    document.getElementById('password-error').classList.remove('d-none');
+                window.location.href = '/products';
+                console.log(response.data);
+            })
+            .catch(function(error){
+                console.error(error);
+                if (error.response && error.response.status === 422) {
+                    const error = error.response.data.error;
+                    if (errors.email) {
+                        $('#email-error').removeClass('d-none').text(errors.email[0]);
+                    }
+                    if (errors.password) {
+                        $('#password-error').removeClass('d-none').text(errors.password[0]);
+                    }
+                } else if (error.response && error.response.data && error.response.data.message) {
+                    $('#general-error').removeClass('d-none').text(error.response.data.message);
+                } else {
+                    $('#general-error').removeClass('d-none').text('Please try again later.');
                 }
-            } else if (error.response && error.response.status === 401) {
-                document.getElementById('general-error').innerText = error.response.data.message;
-                document.getElementById('general-error').classList.remove('d-none');
-            }
+            });
         });
     });
 </script>

@@ -70,44 +70,57 @@
         @method('DELETE')
     </form>
 </x-layout>
-<script>
-document.getElementById('editProductForm').addEventListener('submit', async function(event) {
-    event.preventDefault();
+<script type="module">
+    $(document).ready(function(){
+        $('#editProductForm').on('submit', function(e) {
+            e.preventDefault(); 
 
-    document.querySelectorAll('[id$="-error"]').forEach(el => {
-        el.innerText = '';
-        el.classList.add('d-none');
-    });
+            $('.invalid-feedback').remove();
+            $('.is-invalid').removeClass('is-invalid');
+            const id = "{{ $product->id }}";
+            const title = $('#title').val();
+            const company = $('#company').val();
+            const price = $('#price').val();
 
-    try {
-        const data = {
-            title: document.querySelector('#title').value,
-            company: document.querySelector('#company').value,
-            price: document.querySelector('#price').value,
-        };
-        const response = await axios.patch('/products/{{ $product->id }}', data);
-        window.location.href = response.data.redirect_url;
-    } catch (error) {
-        if (error.response?.status === 422) {
-            Object.entries(error.response.data.errors).forEach(([field, messages]) => {
-                const errorEl = document.getElementById(`${field}-error`);
-                if (errorEl) {
-                    errorEl.innerText = messages[0];
-                    errorEl.classList.remove('d-none');
+            axios.patch(`/products/${id}`, {
+                title: title,
+                company: company,
+                price: price
+            })
+            .then(function(response){
+                window.location.href = `/products/${id}`;
+                console.log(response.data);
+            })
+            .catch(function(error){
+                console.error(error);
+                if (error.response && error.response.status === 422) {
+                    const errors = error.response.data.errors;
+                    $.each(errors, function(key, val){
+                        const inputElement = $(`#${key}`);
+                        inputElement.addClass('is-invalid');
+                        inputElement.after(`<div class="invalid-feedback d-block">${val[0]}</div>`);
+                    });
+                } else {
+                    alert('An error occurred while updating the product. Please try again.');
                 }
             });
-        }
-    }
-});
-document.getElementById('delete-form').addEventListener('submit', async function (event) {
-    event.preventDefault();
-    try {
-        const response = await axios.delete('/products/{{ $product->id }}');
+        });
 
-    window.location.href = response.data.redirect_url;
-    } catch (error) {
-        console.error('An error occurred during deletion execution:', error);
-        alert('Could not delete the product listing record. Please try again.');
-    }
-});
+        $('#delete-form').on('submit', function(e){
+            e.preventDefault();
+            if (!confirm('Are you sure you want to delete this product?')) {
+                return;
+            }
+            const id = "{{ $product->id }}";
+            axios.delete(`/products/${id}`)
+            .then(function(response){
+                window.location.href = '/products';
+                console.log(response.data);
+            })
+            .catch(function(error){
+                console.error(error);
+                alert('Please try again!');
+            });
+        });
+    });
 </script>
