@@ -41,6 +41,7 @@
   </nav>
 
   <header class="bg-white py-4 shadow-sm mb-4 border-bottom">
+    @auth
     <div class="container">
       <div class="d-flex justify-content-between align-items-center gap-4"> 
         <h1 class="h3 font-weight-bold mb-0 text-secondary text-tracking" style="letter-spacing: -0.5px;"> 
@@ -51,6 +52,7 @@
         </div>
       </div>
     </div>
+    @endauth
   </header>
   <main>
     {{ $slot }}
