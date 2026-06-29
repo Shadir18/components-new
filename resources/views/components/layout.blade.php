@@ -23,7 +23,7 @@
             <div class="navbar-nav ml-auto align-items-center">
                     @guest
                         <x-nav-link href="/login" :active="request()->is('login')" class="nav-item nav-link mx-2">Log In</x-nav-link>
-                        <x-nav-link href="/register" :active="request()->is('register')" class="nav-item nav-link mx-2 btn btn-outline-light btn-sm text-white px-3">Register</x-nav-link>
+                        <x-nav-link href="/register" :active="request()->is('register')" class="nav-item nav-link mx-2">Register</x-nav-link>
                     @endguest
 
                     @auth
@@ -39,21 +39,20 @@
         </div>
     </div>
   </nav>
-
+@auth
   <header class="bg-white py-4 shadow-sm mb-4 border-bottom">
-    @auth
     <div class="container">
       <div class="d-flex justify-content-between align-items-center gap-4"> 
         <h1 class="h3 font-weight-bold mb-0 text-secondary text-tracking" style="letter-spacing: -0.5px;"> 
-          {{ $heading }} 
+          {{ $heading ?? '' }} 
         </h1> 
         <div>
           <x-button href="/products/create"> Create Product </x-button>
         </div>
       </div>
     </div>
-    @endauth
   </header>
+@endauth
   <main>
     {{ $slot }}
   </main>

@@ -34,7 +34,7 @@
                         <x-form-field class="mb-3">
                             <x-form-label for="last_name" class="fw-bold mb-1">Last Name</x-form-label>
                             <div class="input-group">
-                                <input id="last_name" name="last_name" placeholder="Vista G" class="form-control mb-2" required />
+                                <input id="last_name" name="last_name" placeholder="Amjard" class="form-control mb-2" required />
                                 <div class="input-group-text bg-light border-start-0 text-muted">
                                     <span class="bi bi-person-vcard"></span>
                                 </div>
