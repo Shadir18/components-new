@@ -6,7 +6,7 @@
     <div class="login-page bg-body-secondary d-flex justify-content-center align-items-center" style="min-height: 100vh;">
         <div class="login-box" style="width: 360px;">
             <div class="login-logo text-center mb-3">
-                <a href="/products" class="text-decoration-none text-dark"><b>Vista</b>G</a>
+                <a href="/products" class="text-decoration-none text-dark"><b>Space</b>X</a>
             </div>
             
             <div class="card shadow-sm border-0">
