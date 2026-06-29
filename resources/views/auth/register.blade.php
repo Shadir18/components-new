@@ -29,14 +29,6 @@
                                 </div>
                             </div>
                             <span id="first_name-error" class="text-danger small mt-1 d-none d-block"></span>
-                            {{-- <x-form-label for="first_name" class="fw-bold mb-1">First Name</x-form-label>
-                            <div class="input-group w-100">
-                                <input id="first_name" name="first_name" placeholder="Shadir" class="align-items-center form-control mb-2" required />
-                                <div class="input-group-text bg-light border-start-0 text-muted">
-                                    <span class="bi bi-person"></span>
-                                </div>
-                            </div> --}}
-                            <span id="first_name-error" class="text-danger small mt-1 d-none d-block"></span>
                         </x-form-field>
 
                         <x-form-field class="mb-3">
