@@ -35,7 +35,6 @@
                             </div>
                             <span id="password-error" class="text-danger small mt-1 d-none"></span>
                         </x-form-field>
-testing
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="remember" name="remember_me">
