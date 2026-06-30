@@ -13,29 +13,29 @@
 <div class="min-h-full">
   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="container">
-      <a class="navbar-brand font-weight-bold text-uppercase" href="/products">Dashboard</a>
+      <a class="navbar-brand font-weight-bold text-uppercase" href="/products">E-commerce</a>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <div class="navbar-nav ml-auto gap-2">
+            <div class="navbar-nav ms-auto gap-1">
               <x-nav-link href="/products" :active="request()->is('products')">Home</x-nav-link>
               <x-nav-link href="/about" :active="request()->is('about')">About</x-nav-link>
               <x-nav-link href="/contact" :active="request()->is('contact')">Contact</x-nav-link>
             </div>
             <div class="navbar-nav ml-auto align-items-center">
-                    @guest
-                        <x-nav-link href="/login" :active="request()->is('login')" class="nav-item nav-link mx-2">Log In</x-nav-link>
-                        <x-nav-link href="/register" :active="request()->is('register')" class="nav-item nav-link mx-2">Register</x-nav-link>
-                    @endguest
+              @guest
+                <x-nav-link href="/login" :active="request()->is('login')" class="nav-item nav-link mx-2">Log In</x-nav-link>
+                <x-nav-link href="/register" :active="request()->is('register')" class="nav-item nav-link mx-2">Register</x-nav-link>
+              @endguest
 
-                    @auth
-                        <span class="navbar-text text-light small mr-3">
-                            Welcome, {{ auth()->user()->first_name }}
-                        </span>
-                        <form method="POST" action="/" class="form-inline m-0">
-                            @csrf
-                            <button type="submit" onclick="handleLogout()" class="btn btn-danger btn-sm px-3 font-weight-bold">Log Out</button>
-                        </form>
-                    @endauth
-                </div>
+              @auth
+                <span class="navbar-text text-light small mx-2">
+                  Welcome, {{ auth()->user()->first_name }}
+                </span>
+                <form method="POST" action="/" class="form-inline mx-2">
+                  @csrf
+                  <button type="submit" onclick="handleLogout()" class="btn btn-danger btn-sm px-3 font-weight-bold">Log Out</button>
+                </form>
+              @endauth
+            </div>
         </div>
     </div>
   </nav>
