@@ -28,7 +28,7 @@
 
                         <x-form-field class="mb-3">
                             <div class=" d-flex justify-content-center align-items-center input-group mb-3">
-                                <x-form-input id="password" name="password" type="password" placeholder="Password" class="form-control" value="password123" required></x-form-input>
+                                <x-form-input id="password" name="password" type="password" placeholder="Password" class="form-control" value="123456" required></x-form-input>
                                 <div class="input-group-text bg-light border-start-0 text-muted">
                                     <span class="bi bi-lock-fill"></span>
                                 </div>
