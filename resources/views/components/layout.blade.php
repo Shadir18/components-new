@@ -10,8 +10,10 @@
 </head>
 <body class="layout-fixed sidebar-expand-lg sidebar-mini bg-body-tertiary">
   <div class="app-wrapper">
+    @auth
     <x-header />
     <x-sidebar />
+    @endauth
     <main class="app-main pt-4">
       {{-- @auth
         <div class="container-fluid mb-4">
@@ -46,7 +48,7 @@ $(document).ready(function() {
 window.handleLogout = function() {
     $.post('/logout')
         .done(function(response) {
-            window.location.href = '/products';
+            window.location.href = '/';
         })
         .fail(function(xhr, status, error) {
             console.error('Logout failed:', error);
