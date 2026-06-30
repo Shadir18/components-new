@@ -10,6 +10,9 @@ class SessionController extends Controller
 {
     public function create()
     {
+        if (Auth::check()){
+            return redirect()->route('products.index');
+        }
         return view('auth.login');
     }
 
