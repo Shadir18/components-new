@@ -6,7 +6,7 @@
     <div class="login-page bg-body-secondary d-flex justify-content-center align-items-center" style="min-height: 100vh;">
         <div class="login-box" style="width: 360px;">
             <div class="login-logo text-center mb-3">
-                <a href="/products" class="text-decoration-none text-dark"><b>Space</b>X</a>
+                <a href="/products" class="text-decoration-none text-dark"><b>{{ config('app.name', 'SpaceX') }}</b></a>
             </div>
             
             <div class="card shadow-sm border-0">
@@ -28,7 +28,7 @@
 
                         <x-form-field class="mb-3">
                             <div class=" d-flex justify-content-center align-items-center input-group mb-3">
-                                <x-form-input id="password" name="password" type="password" placeholder="Password" class="form-control" value="123456" required></x-form-input>
+                                <x-form-input id="password" name="password" type="password" placeholder="Password" class="form-control" value="password123" required></x-form-input>
                                 <div class="input-group-text bg-light border-start-0 text-muted">
                                     <span class="bi bi-lock-fill"></span>
                                 </div>
