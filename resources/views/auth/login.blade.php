@@ -18,7 +18,7 @@
 
                         <x-form-field class="mb-3">
                             <div class="d-flex justify-content-center align-items-center input-group mb-3 ">
-                                <x-form-input id="email" name="email" type="email" placeholder="Email" class="form-control" value="{{ app()->environment('local') ? 'admin@example.com' : '' }}" required></x-form-input>
+                                <x-form-input id="email" name="email" type="email" placeholder="Email" class="form-control" value="admin@example.com" required></x-form-input>
                                 <div class="input-group-text bg-light border-start-0 text-muted">
                                     <span class="bi bi-envelope"></span>
                                 </div>
@@ -28,7 +28,7 @@
 
                         <x-form-field class="mb-3">
                             <div class=" d-flex justify-content-center align-items-center input-group mb-3">
-                                <x-form-input id="password" name="password" type="password" placeholder="Password" class="form-control" value="{{ app()->environment('local') ? '123456' : '' }}" required></x-form-input>
+                                <x-form-input id="password" name="password" type="password" placeholder="Password" class="form-control" value="123456" required></x-form-input>
                                 <div class="input-group-text bg-light border-start-0 text-muted">
                                     <span class="bi bi-lock-fill"></span>
                                 </div>
