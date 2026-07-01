@@ -6,12 +6,14 @@ use App\Http\Controllers\SessionController;
 use Illuminate\Support\Facades\Route;
 
 
-Route::get('/', [SessionController::class, 'create'])->name('login');
+// Route::get('/', [SessionController::class, 'create'])->name('login');
 Route::middleware(['auth'])->group(function () {
     Route::resource('products', ProductController::class);
     Route::view('/about', 'about');
-    Route::view('/contact', 'contact');
 });
+Route::view('/contact', 'contact');
+Route::view('/menu', 'menu');
+Route::view('/', 'home');
 
 Route::get('/register', [RegisteredUserController::class, 'create']);
 Route::post('/register', [RegisteredUserController::class, 'store']);

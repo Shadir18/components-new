@@ -1,3 +1,8 @@
 <x-layout>
-    <x-slot:heading> Contact Page</x-slot:heading>
+    @guest
+        <x-header />
+    @endguest
+    <h1>
+        welcome to Market Place
+    </h1>
 </x-layout>
