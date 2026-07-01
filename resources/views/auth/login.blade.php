@@ -1,12 +1,12 @@
 <x-layout>
-    <x-slot:heading>
-        Login Page
-    </x-slot:heading>
+    @guest
+        <x-header />
+    @endguest
 
     <div class="login-page bg-body-secondary d-flex justify-content-center align-items-center" style="min-height: 100vh;">
         <div class="login-box" style="width: 360px;">
             <div class="login-logo text-center mb-3">
-                <a href="/products" class="text-decoration-none text-dark"><b>{{ config('app.name', 'SpaceX') }}</b></a>
+                <a href="/products" class="text-decoration-none text-dark"><b>{{ config('app.name', 'MarketPlace') }}</b></a>
             </div>
             
             <div class="card shadow-sm border-0">

@@ -14,7 +14,7 @@
     <x-header />
     <x-sidebar />
     @endauth
-    <main class="app-main pt-4">
+    <main class="app-main">
       {{-- @auth
         <div class="container-fluid mb-4">
           <div class="bg-white py-4 px-4 shadow-sm rounded-3 border d-flex justify-content-between align-items-center gap-4">
@@ -27,8 +27,8 @@
           </div>
         </div>
       @endauth --}}
-      <div class="app-content">
-        <div class="container-fluid">
+      <div>
+        <div>
           {{ $slot }}
         </div>
       </div>
