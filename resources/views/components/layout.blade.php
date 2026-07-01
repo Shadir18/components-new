@@ -13,7 +13,7 @@
 <div class="min-h-full">
   <nav class="navbar navbar-expand-md navbar-dark bg-dark">
     <div class="container">
-      <a class="navbar-brand font-weight-bold text-uppercase" href="/products">E-commerce</a>
+      <a class="navbar-brand font-weight-bold" href="/products">SpaceX</a>
         <div class="collapse navbar-collapse" id="navbarNav">
             <div class="navbar-nav ms-auto gap-1">
               <x-nav-link href="/products" :active="request()->is('products')">Home</x-nav-link>
