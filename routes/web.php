@@ -6,18 +6,11 @@ use App\Http\Controllers\SessionController;
 use Illuminate\Support\Facades\Route;
 
 
+Route::get('/', [SessionController::class, 'create'])->name('login');
 Route::middleware(['auth'])->group(function () {
     Route::resource('products', ProductController::class);
-});
-Route::get('/', [ProductController::class, 'index']);
-Route::resource('products', ProductController::class)->only(['index', 'show']);
-
-Route::get('/about', function(){
-    return view('about');
-});
-
-Route::get('/contact', function() {
-    return view('contact');
+    Route::view('/about', 'about');
+    Route::view('/contact', 'contact');
 });
 
 Route::get('/register', [RegisteredUserController::class, 'create']);
