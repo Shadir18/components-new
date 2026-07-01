@@ -17,7 +17,7 @@
                 </li>
 
                 <li class="nav-item {{ request()->is('products/create') ? 'menu-open' : '' }}">
-                    <x-nav-link href="#" class="nav-link {{ request()->is('products/create')}}">
+                    <x-nav-link href="#" class="nav-link {{ request()->is('products/create') ? 'active' : '' }}">
                         <i class="nav-icon bi bi-clipboard-fill"></i>
                         <p>
                             Actions
@@ -36,14 +36,14 @@
                 </li>
 
                 <li class="nav-item">
-                    <x-nav-link href="/about" class="{{request()->is('about')}}">
+                    <x-nav-link href="/about" :active="request()->is('about')">
                         <i class="nav-icon bi bi-info-circle-fill"></i>
                         <p>About</p>
                     </x-nav-link>
                 </li>
 
                 <li class="nav-item">
-                    <x-nav-link href="/contact" class="{{request()->is('contact')}}">
+                     <x-nav-link href="/contact" :active="request()->is('contact')">
                         <i class="nav-icon bi bi-envelope-fill"></i>
                         <p>Contact</p>
                     </x-nav-link>

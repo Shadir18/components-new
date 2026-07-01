@@ -44,16 +44,6 @@ $(document).ready(function() {
         }
     });
 });
-$(document).on('click', '.nav-link', function (e) {
-  e.preventDefault();
-  $('.nav-link').removeClass('active');
-  $(this).addClass('active');
-    const url = $(this).attr('href');
-    axios.get(url).then(res => {
-        $('.app-content').html($(res.data).find('.app-content').html());
-        history.pushState({}, '', url);
-    });
-});
 
 window.handleLogout = function() {
     $.post('/logout')
